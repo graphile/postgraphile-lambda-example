@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "pack": "npm run makeCache && npm run webpack",
+    "webpack": "webpack",
+    "makeCache": "node makeCache"
+  },
   "dependencies": {
     "@babel/core": "7.0.0-beta.40",
     "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.40",
