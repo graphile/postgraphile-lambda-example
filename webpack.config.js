@@ -4,7 +4,9 @@ module.exports = {
   entry: ['@babel/polyfill', './index.js'],
   output: {
     path: __dirname,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    library: '',
+    libraryTarget: 'commonjs'
   },
   target: "node",
   module: {
