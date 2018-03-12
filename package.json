@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "pack": "npm run makeCache && npm run webpack && npm run zip",
+    "bundle": "npm run makeCache && npm run webpack && npm run zip",
     "webpack": "webpack",
-    "zip": "zip -Xr -x'.git' lambda.zip .",
+    "zip": "zip -Xr -x'.git' -x'node_modules/rxjs' -x'node_modules/prettier' -x'node_modules/fsevents' -x'node_modules/@babel' -x'node_modules/webpack-addons' -x'node_modules/caniuse-lite' lambda.zip .",
     "makeCache": "node makeCache"
   },
   "dependencies": {
