@@ -2,3 +2,4 @@ node_modules
 bundle.js
 postgraphile.cache
 yarn-error.log
+lambda.zip

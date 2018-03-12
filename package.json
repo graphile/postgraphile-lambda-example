@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "pack": "npm run makeCache && npm run webpack",
+    "pack": "npm run makeCache && npm run webpack && npm run zip",
     "webpack": "webpack",
+    "zip": "zip -Xr -x'.git' lambda.zip .",
     "makeCache": "node makeCache"
   },
   "dependencies": {
