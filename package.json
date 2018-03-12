@@ -2,7 +2,7 @@
   "scripts": {
     "bundle": "npm run makeCache && npm run webpack && npm run zip",
     "webpack": "webpack",
-    "zip": "zip -Xr -x'.git' -x'node_modules/rxjs' -x'node_modules/prettier' -x'node_modules/fsevents' -x'node_modules/@babel' -x'node_modules/webpack-addons' -x'node_modules/caniuse-lite' lambda.zip .",
+    "zip": "find . -type f  -not -name '*.js.map' -not -wholename '*/.git/*' -not -wholename '*/node_modules/.cache/*' -not -wholename '*/node_modules/webpack-cli/*' -not -wholename '*/node_modules/webpack/*' -not -wholename '*/node_modules/rxjs/*' -not -wholename '*/node_modules/prettier/*' -not -wholename '*/node_modules/fsevents/*' -not -wholename '*/node_modules/@babel/*' -not -wholename '*/node_modules/webpack-addons/*' -not -wholename '*/node_modules/caniuse-lite/*' | zip -Xr@ lambda.zip",
     "makeCache": "node makeCache"
   },
   "dependencies": {
