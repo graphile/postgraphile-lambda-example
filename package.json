@@ -8,9 +8,11 @@
   "dependencies": {
     "@babel/core": "7.0.0-beta.40",
     "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.40",
+    "@babel/polyfill": "7.0.0-beta.40",
     "@babel/preset-env": "7.0.0-beta.40",
     "aws-serverless-express": "3.1.3",
     "babel-loader": "^8.0.0-beta.0",
+    "express": "4.16.2",
     "pg": "7.4.1",
     "postgraphile": "4.0.0-beta.2",
     "webpack": "4.1.1",

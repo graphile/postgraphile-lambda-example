@@ -1,6 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 module.exports = {
-  entry: './index.js',
+  context: __dirname,
+  entry: ['@babel/polyfill', './index.js'],
   output: {
     path: __dirname,
     filename: 'bundle.js'
@@ -33,5 +34,8 @@ module.exports = {
         'graphql-parser-resolve-info',
       ]
     })
-  ]
+  ],
+  node: {
+    __dirname: false,
+  }
 };

@@ -1,3 +1,4 @@
+const express = require('express');
 const awsServerlessExpress = require("aws-serverless-express");
 const { postgraphile } = require("postgraphile");
 const { options, cachePath } = require("./postgraphileOptions");
