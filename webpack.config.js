@@ -39,5 +39,9 @@ module.exports = {
   ],
   node: {
     __dirname: false,
-  }
+  },
+  plugins: [],
+  optimization: {
+    minimizer: []
+  },
 };
