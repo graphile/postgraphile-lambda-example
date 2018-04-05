@@ -19,7 +19,7 @@ module.exports = {
           plugins: ["@babel/plugin-proposal-object-rest-spread"],
           presets: [["@babel/env", {
             target: {
-              node: "6.10"
+              node: "8.10"
             }
           }]]
         }
