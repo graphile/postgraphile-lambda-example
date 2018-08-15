@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:10.4
+    environment:
+      POSTGRES_USER: gqluser
+      POSTGRES_PASSWORD: gqlGQL000
+      POSTGRES_DB: postgres
+    volumes:
+      - "/var/lib/postgresql/data"
+      - "./sql/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql"
+      - "./sql/02_data.sql:/docker-entrypoint-initdb.d/02_data.sql"
+    restart: unless-stopped
+
+  gql:
+    image: node:carbon
+    working_dir: /home/node/app/ 
+    environment:
+      DATABASE_URL: postgres://gqluser:gqlGQL000@postgres/postgres
+      DATABASE_SCHEMAS: forum_example,forum_example_private
+    entrypoint: /wait-for-it.sh postgres:5432 -t 120 --
+    command: /make-cache.sh
+    volumes:
+      - /home/node/app/node_modules
+      - ./src:/home/node/app/
+      - ./scripts/wait-for-it.sh:/wait-for-it.sh
+      - ./scripts/make-cache.sh:/make-cache.sh
+    restart: "no"

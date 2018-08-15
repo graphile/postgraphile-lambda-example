@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Postgraphile as a Lambda Function
+Resources:
+  graphql:
+    Type: AWS::Serverless::Function
+    Environment:
+      Variables:
+        DATABASE_URL: postgres://gqluser:gqlGQL000@postgres/postgres
+        PGPORT: "5432"
+        PGHOST: "localhost"
+        PGDATABASE: "postgres"
+        PGUSER: "gqluser"
+        PGPASSWORD: "gqlGQL000"
+        JWT_SECRET: "2c045e2eb2ec46488530"
+    Properties:
+      Policies: "AWSLambdaVPCAccessExecutionRole"
+      Runtime: nodejs8.10
+      Handler: index.handler
+      CodeUri: ./src/lambda.zip
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /graphql
+            Method: post
