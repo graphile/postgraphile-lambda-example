@@ -8,7 +8,7 @@ if ! [ -x "$(command -v zip)" ]; then
     apt-get update && apt-get install zip -y
 fi
 
-sudo npm i -g npm@latest
+npm i -g npm@latest
 npm i
 
 sleep 3

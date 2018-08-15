@@ -16,13 +16,15 @@ Stage 2 can be executed as often as desired for testing.
 ### Stage 1
 To create the schema cache and zip the code into a lambda compatible archive run:
 
-    docker-compose up --abort-on-container-exit
-    ls -lah src/lambda.zip
-
 ### Stage 2
-To run the code in sam local
+Start the database
 
-    echo '{ "body": "hi" }' | sam local invoke "graphql"
+    docker-compose up -d
+    sam local start-api
+
+Open a new terminal and wait for a **few minutes** after executing:
+
+    curl -i -H 'Accept: application/json' -H 'Content-Type: application/json' -XPOST -d '{ "query": "mutation { authenticate (input: { clientMutationId: \"cmId\", email: \"test@test.test\", password: \"123\" }) { jwtToken { role } } }" }' http://localhost:3000/graphql
 
 ## Thanks
 

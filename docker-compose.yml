@@ -2,28 +2,45 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:10.4
     environment:
       POSTGRES_USER: gqluser
       POSTGRES_PASSWORD: gqlGQL000
       POSTGRES_DB: postgres
+    image: postgres:10.4
+    ports:
+      - '127.0.0.1:5432:5432'
+    restart: unless-stopped
     volumes:
       - "/var/lib/postgresql/data"
       - "./sql/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql"
       - "./sql/02_data.sql:/docker-entrypoint-initdb.d/02_data.sql"
-    restart: unless-stopped
 
-  gql:
+  # This service is meant to run once and then quit
+  makecache:
+    command: /make-cache.sh
     image: node:carbon
-    working_dir: /home/node/app/ 
+    entrypoint: /wait-for-it.sh postgres:5432 -t 120 --
     environment:
       DATABASE_URL: postgres://gqluser:gqlGQL000@postgres/postgres
       DATABASE_SCHEMAS: forum_example,forum_example_private
-    entrypoint: /wait-for-it.sh postgres:5432 -t 120 --
-    command: /make-cache.sh
+    restart: "no"
     volumes:
       - /home/node/app/node_modules
       - ./src:/home/node/app/
       - ./scripts/wait-for-it.sh:/wait-for-it.sh
       - ./scripts/make-cache.sh:/make-cache.sh
-    restart: "no"
+    working_dir: /home/node/app/ 
+
+  # aws-sam-local:
+  #   image: gardner/aws-sam-local
+  #   command: local start-api --docker-volume-basedir "$PWD" --host 0.0.0.0
+  #   depends_on:
+  #     - makecache
+  #   ports:
+  #     - '3000:3000'
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./:/var/opt
+  #     - /tmp:/tmp
+
