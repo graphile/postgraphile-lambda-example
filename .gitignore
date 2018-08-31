@@ -3,3 +3,4 @@ bundle.js
 postgraphile.cache
 yarn-error.log
 lambda.zip
+.env
