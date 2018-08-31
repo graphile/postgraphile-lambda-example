@@ -9,17 +9,18 @@ if ! [ -x "$(command -v zip)" ]; then
 fi
 
 if [ -f package-lock.json ]; then
-  # npm mode
+  # `npm ci` mode
   npm i -g npm@latest
-  npm i
+  npm ci
 
   sleep 3
   npm run bundle
 else
-  # yarn mode
+  # `yarn` mode
   npm i -g yarn@latest
   yarn install --force
 
   sleep 3
   yarn bundle
+
 fi
