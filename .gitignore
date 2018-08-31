@@ -4,3 +4,4 @@ postgraphile.cache
 yarn-error.log
 lambda.zip
 .env
+template.yml
