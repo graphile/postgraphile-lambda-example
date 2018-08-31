@@ -1,0 +1,1 @@
+{ "query": "mutation { authenticate (input: { clientMutationId: \"cmId\", email: \"user@test.test\", password: \"password\" }) { jwtToken { role } } }" }
