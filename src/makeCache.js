@@ -1,5 +1,5 @@
 const { createPostGraphileSchema } = require("postgraphile-core");
-const { options, cachePath } = require("./postgraphileOptions");
+const { options } = require("./postgraphileOptions");
 const pg = require('pg');
 
 const schemas = process.env.DATABASE_SCHEMAS ? process.env.DATABASE_SCHEMAS.split(",") : ['app_public'];
@@ -10,7 +10,7 @@ async function main() {
   });
   await createPostGraphileSchema(pgPool, schemas, {
     ...options,
-    writeCache: cachePath,
+    writeCache: `${__dirname}/../dist/postgraphile.cache`,
   });
   await pgPool.end();
 }

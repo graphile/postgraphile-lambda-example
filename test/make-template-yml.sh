@@ -18,7 +18,7 @@ Resources:
       Runtime: nodejs8.10
       Handler: index.handler
       Timeout: 30
-      CodeUri: ./src/lambda.zip
+      CodeUri: ../lambda.zip
       Events:
         Api:
           Type: Api

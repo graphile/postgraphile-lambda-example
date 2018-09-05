@@ -1,16 +1,29 @@
 #!/bin/bash
 set -e
 
+echo "Sourcing environment"
+if [ -x .env ]; then
+  . ./.env
+  echo "... done"
+else
+  echo "... no .env file found"
+fi
+
+if [ "$DATABASE_URL" = "" ]; then
+  echo "No DATABASE_URL envvar found; cannot continue."
+  exit 1
+fi
+
 echo "Phase 1/4: build"
-./build
+scripts/build
 
 echo "Phase 2/4: generate cache"
-./generate-cache
+scripts/generate-cache
 
 echo "Phase 3/4: bundle"
-./bundle
+scripts/bundle
 
 echo "Phase 4/4: test"
-./test
+scripts/test
 
 echo "Complete"

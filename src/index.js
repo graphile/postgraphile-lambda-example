@@ -7,7 +7,7 @@ const awsServerlessExpress = require("aws-serverless-express");
 timestamps.push(['required aws-serverless-express', process.hrtime(startTimestamp)]);
 const { postgraphile } = require("postgraphile");
 timestamps.push(['required postgraphile', process.hrtime(startTimestamp)]);
-const { options, cachePath } = require("./postgraphileOptions");
+const { options } = require("./postgraphileOptions");
 timestamps.push(['required postgraphileOptions', process.hrtime(startTimestamp)]);
 const bodyParser = require('body-parser')
 timestamps.push(['required body-parser', process.hrtime(startTimestamp)]);
@@ -17,7 +17,7 @@ const app = express();
 timestamps.push(['express created', process.hrtime(startTimestamp)]);
 app.use(postgraphile(process.env.DATABASE_URL, schemas, {
   ...options,
-  readCache: cachePath,
+  readCache: `${__dirname}/postgraphile.cache`,
 }));
 timestamps.push(['postgraphile mounted', process.hrtime(startTimestamp)]);
 

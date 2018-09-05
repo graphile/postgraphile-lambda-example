@@ -1,6 +1,6 @@
-.env
+/.env
 /node_modules
-yarn-error.log
-/lib
+/yarn-error.log
 /dist
 /test/template.yml
+/lambda.zip

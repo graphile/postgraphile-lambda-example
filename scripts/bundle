@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-mkdir -p dist
-rm dist/lambda.zip
-cd lib
-find . -type f  -not -name '*.js.map' | zip -Xqr@ ../dist/lambda.zip
+rm -f lambda.zip
+cd dist
+find . -type f  -not -name '*.js.map' | zip -Xqr@ ../lambda.zip
