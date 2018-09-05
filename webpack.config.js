@@ -15,6 +15,7 @@ module.exports = {
     // Prevent loading pg-native (in a weird, backwards kind of way!)
     ...[
       new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"production"',
         'process.env.NODE_PG_FORCE_NATIVE': JSON.stringify('1'),
       }),
       new webpack.NormalModuleReplacementPlugin(/pg\/lib\/native\/index\.js$/, '../client.js'),
