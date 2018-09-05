@@ -11,22 +11,17 @@ module.exports = {
   },
   mode: 'production',
   target: 'node',
-  module: {
-    noParse(content) {
-      if (/express\/lib\/view.js/.test(content)) {
-        // Express dynamically requires the view engine
-        return true;
-      }
-      return false;
-    },
-  },
   plugins: [
     // Prevent loading pg-native (in a weird, backwards kind of way!)
     ...[
       new webpack.DefinePlugin({
         'process.env.NODE_PG_FORCE_NATIVE': JSON.stringify('1'),
       }),
-      new webpack.NormalModuleReplacementPlugin(/pg\/lib\/native\/index.js$/, '../client.js'),
+      new webpack.NormalModuleReplacementPlugin(/pg\/lib\/native\/index\.js$/, '../client.js'),
+      new webpack.NormalModuleReplacementPlugin(
+        /express\/lib\/view\.js$/,
+        `${__dirname}/src/express-lib-view.js`,
+      ),
     ],
   ],
   node: {
@@ -40,7 +35,7 @@ module.exports = {
           // `Error: GraphQL conflict for 'e' detected! Multiple versions of graphql exist in your node_modules?`
           mangle: false,
         },
-      })
-    ]
-  }
+      }),
+    ],
+  },
 };
