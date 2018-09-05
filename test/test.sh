@@ -2,6 +2,7 @@ set -e
 
 echo "Making template.yml"
 ./make-template-yml.sh
+unset DATABASE_URL
 
 echo "Spinning up SAM... (waiting a few seconds)"
 trap 'kill $(jobs -p)' EXIT
