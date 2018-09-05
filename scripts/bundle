@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+mkdir -p dist
+rm dist/lambda.zip
+cd lib
+find . -type f  -not -name '*.js.map' | zip -Xqr@ ../dist/lambda.zip

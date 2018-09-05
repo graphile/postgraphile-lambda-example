@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+echo "Phase 1/4: build"
+./build
+
+echo "Phase 2/4: generate cache"
+./generate-cache
+
+echo "Phase 3/4: bundle"
+./bundle
+
+echo "Phase 4/4: test"
+./test
+
+echo "Complete"

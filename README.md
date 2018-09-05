@@ -42,7 +42,7 @@ this will be a subset best suited to Lambda usage.
 Each phase depends on the previous non-optional phase; so if an earlier phase
 rebuilds all later phases must also.
 
-#### Phase 1: build postgraphile
+#### Phase 1: build postgraphile: `scripts/build`
 
 Uses webpack to produce a single JS file containing all that is necessary.
 
@@ -50,7 +50,7 @@ Compiles `src/**` to `lib/`
 
 **Start here when**: you change your code, add/remove plugins, or upgrade dependencies.
 
-#### Phase 2: generate cache
+#### Phase 2: generate cache: `scripts/generate-cache`
 
 Use `postgraphile --write-cache` (or similar) to write a cache file containing
 introspection details of your database.
@@ -61,13 +61,13 @@ Generates `lib/postgraphile.cache`
 
 `docker-compose start makecache`
 
-#### Phase 3: bundle
+#### Phase 3: bundle: `scripts/bundle`
 
 Produce a zip file combining the two artifacts above.
 
 Generates `dist/bundle.zip` from `lib/` folder
 
-#### Phase 4 (optional): test
+#### Phase 4 (optional): test: `scripts/test`
 
 Launch the bundle in the `sam local` test environment.
 
