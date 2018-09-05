@@ -25,4 +25,22 @@ Resources:
           Properties:
             Path: /graphql
             Method: post
+        Favicon:
+          Type: Api
+          Properties:
+            Path: /favicon.ico
+            Method: get
+        Graphiql:
+          Type: Api
+          Properties:
+            Path: /graphiql
+            Method: get
+Globals:
+  Api:
+    BinaryMediaTypes:
+      # These are equivalent to image/gif and image/png when deployed
+      - image~1gif
+      - image~1png
+      - image~1icon
+      - image~1x-icon
 HERE
