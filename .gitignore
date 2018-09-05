@@ -1,7 +1,6 @@
-node_modules
-bundle.js
-postgraphile.cache
-yarn-error.log
-lambda.zip
 .env
-template.yml
+/node_modules
+yarn-error.log
+/lib
+/dist
+/test/template.yml

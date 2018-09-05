@@ -46,12 +46,16 @@ rebuilds all later phases must also.
 
 Uses webpack to produce a single JS file containing all that is necessary.
 
+Compiles `src/**` to `lib/`
+
 **Start here when**: you change your code, add/remove plugins, or upgrade dependencies.
 
 #### Phase 2: generate cache
 
 Use `postgraphile --write-cache` (or similar) to write a cache file containing
 introspection details of your database.
+
+Generates `lib/postgraphile.cache`
 
 **Start here when**: database schema changes.
 
@@ -60,6 +64,8 @@ introspection details of your database.
 #### Phase 3: bundle
 
 Produce a zip file combining the two artifacts above.
+
+Generates `dist/bundle.zip` from `lib/` folder
 
 #### Phase 4 (optional): test
 
