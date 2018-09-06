@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { options: postgraphileOptions } = require('./src/postgraphileOptions.js');
 
 module.exports = {
   output: {
@@ -18,6 +19,11 @@ module.exports = {
         'process.env.NODE_ENV': '"production"',
         'process.env.POSTGRAPHILE_ENV': '"production"',
         'process.env.NODE_PG_FORCE_NATIVE': JSON.stringify('1'),
+        ...(postgraphileOptions.graphiql
+          ? null
+          : {
+              'process.env.POSTGRAPHILE_OMIT_ASSETS': '"1"',
+            }),
       }),
       new webpack.NormalModuleReplacementPlugin(/pg\/lib\/native\/index\.js$/, '../client.js'),
       new webpack.NormalModuleReplacementPlugin(
