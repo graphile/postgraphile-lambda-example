@@ -10,7 +10,7 @@ with the following aims:
 - [x] Graphile-build schema plugin support
 - [x] Support for middlewares
 - [x] No requirement for Node.js `http`-based libraries (such as Connect,
-  Express, Koa) - instead use native Lambda event handlers
+  Express, Koa)
 
 ### Method
 
@@ -75,7 +75,7 @@ Left as an exercise to the reader.
 * [docker](https://docs.docker.com/install/)
 * [aws sam cli](https://docs.aws.amazon.com/lambda/latest/dg/sam-cli-requirements.html) - `pip install aws-sam-cli`
 
-### Running it
+### Running tests
 
 Install dependencies
 
@@ -109,6 +109,53 @@ Note the first run might take a while whilst the system installs the relevant
 docker images.
 
 In the test output you should see a number of `0 errors` statements, and some successful GraphQL HTTP request payloads
+
+### Running local sam instance
+
+Do the same as for the test, but instead of running `yarn test` at the end, instead run:
+
+```
+yarn sam
+```
+
+This will set up a local GraphQL endpoint at http://127.0.0.1:3000/
+
+You can then use a GraphQL client such as Altair or GraphQL Playground to issue requests.
+
+If you're using the sample database then you can generate a JWT via:
+
+```graphql
+mutation {
+  authenticate(input: {email: "spowell0@noaa.gov", password: "iFbWWlc"}) {
+    jwtToken
+  }
+}
+```
+
+([Other users exist](https://github.com/graphile/postgraphile/blob/160670dd91ca7faddf784351b33da2bb9924df39/examples/forum/data.sql#L18-L27).)
+
+Then set the JWT header:
+
+```json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZm9ydW1fZXhhbXBsZV9wZXJzb24iLCJwZXJzb25faWQiOjEsImlhdCI6MTUzODEyOTEyMSwiZXhwIjoxNTM4MjE1NTIxLCJhdWQiOiJwb3N0Z3JhcGhpbGUiLCJpc3MiOiJwb3N0Z3JhcGhpbGUifQ.NFZ10gvIB29VL1p3Wh-Cc74JSigOOhgtqaMCP9ZA2W0"
+}
+```
+
+Then you can issue an authenticated query:
+
+```graphql
+{
+  currentPerson {
+    nodeId
+    id
+    fullName
+  }
+}
+```
+
+Note that SAM unpacks the zip and reboots node for every single request, so you're going to suffer some startup latency with this.
+
 
 ### Thanks
 

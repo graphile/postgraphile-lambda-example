@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+cd test
+
+echo "Making template.yml"
+./make-template-yml.sh
+unset DATABASE_URL
+
+echo "Spinning up SAM..."
+sam local start-api
+

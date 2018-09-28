@@ -1,5 +1,4 @@
 #!/bin/bash
 set -e
 
-cd src
-yarn makeCache
+node src/makeCache
