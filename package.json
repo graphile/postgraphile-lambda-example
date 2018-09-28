@@ -5,6 +5,7 @@
     "phase2": ". ./.env && scripts/generate-cache",
     "phase3": ". ./.env && scripts/bundle",
     "phase4": ". ./.env && scripts/test",
+    "prepare": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle",
     "sam": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/sam",
     "test": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/test"
   },
