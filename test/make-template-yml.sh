@@ -23,7 +23,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /graphql
+            Path: /
             Method: post
         Favicon:
           Type: Api

@@ -16,7 +16,7 @@ curl -i -XPOST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
   -d @query.graphql \
-  http://127.0.0.1:3000/graphql
+  http://127.0.0.1:3000/
 
 echo "Running a few more requests"
 
@@ -25,7 +25,7 @@ for I in `seq 1 10`; do
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
     -d @query.graphql \
-    http://127.0.0.1:3000/graphql
+    http://127.0.0.1:3000/
 done
 
 echo "Shutting SAM back down..."
