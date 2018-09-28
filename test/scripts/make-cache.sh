@@ -1,7 +1,5 @@
 #!/bin/bash
 
-## This script is run in the gql docker container
-
 cd /home/node/app/
 
 if ! [ -x "$(command -v zip)" ]; then
