@@ -64,12 +64,13 @@ Generates `lambda.zip` from `dist/` folder
 
 #### Phase 4 (optional): test: `scripts/test`
 
-Launch the bundle in the `sam local` test environment.
+Launch the bundle in the `sam local` test environment, and run a series of requests.
 
-#### Phase 5: upload
+**Manual checking of the results is required.**
+
+#### Phase 5: upload to Lambda
 
 Left as an exercise to the reader.
-
 
 ### Prerequisites
 
@@ -99,7 +100,6 @@ If you're using the default `.env.template` file then you'll need to populate th
 
 Make sure that the query in `test/query.graphql` and the options in `src/postgraphileOptions.js` are both valid for your database.
 
-
 Run the tests:
 
 ```
@@ -109,7 +109,7 @@ yarn test
 Note the first run might take a while whilst the system installs the relevant
 docker images.
 
-In the test output you should see a number of `0 errors` statements, and some successful GraphQL HTTP request payloads
+In the test output you should see a number of `0 error(s)` statements, and some successful GraphQL HTTP request payloads
 
 ### Running local sam instance
 

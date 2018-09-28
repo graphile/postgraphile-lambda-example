@@ -26,11 +26,13 @@ module.exports = {
             }),
       }),
       new webpack.NormalModuleReplacementPlugin(/pg\/lib\/native\/index\.js$/, '../client.js'),
-      new webpack.NormalModuleReplacementPlugin(
-        /express\/lib\/view\.js$/,
-        `${__dirname}/src/express-lib-view.js`,
-      ),
     ],
+
+    // Just in case you install express:
+    new webpack.NormalModuleReplacementPlugin(
+      /express\/lib\/view\.js$/,
+      `${__dirname}/src/express-lib-view.js`
+    ),
   ],
   node: {
     __dirname: false, // just output `__dirname`
@@ -39,7 +41,7 @@ module.exports = {
     minimizer: [
       new UglifyJsPlugin({
         uglifyOptions: {
-          // without this, you may get errors such as
+          // Without this, you may get errors such as
           // `Error: GraphQL conflict for 'e' detected! Multiple versions of graphql exist in your node_modules?`
           mangle: false,
         },
