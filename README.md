@@ -17,8 +17,7 @@ with the following aims:
 Here's some of the techniques we'll be using to achieve the goals:
 
 - webpack - to bundle up the required code into as small a file as possible
-  (hopefully we can get to the point where uploading `node_modules` is
-  unnecessary)
+  (no need for `node_modules` any more!)
 - PostGraphile `writeCache` / `readCache` - we'll introspect the database
   during the build and write the results to a cache file to be included in the
   bundle; then when the Lambda service starts up it can read from the cache
@@ -35,12 +34,14 @@ this will be a subset best suited to Lambda usage.
 
 ### Phases
 
-Each phase depends on the previous non-optional phase; so if an earlier phase
-rebuilds all later phases must also.
+The system operates based on a number of phases. Each phase depends on the
+previous non-optional phase; so if an earlier phase rebuilds then all later
+phases must also rebuild.
 
 #### Phase 1: build postgraphile: `scripts/build`
 
-Uses webpack to produce a single JS file containing all that is necessary.
+Uses webpack to produce a single JS file containing all that is necessary,
+using `src/index.js` as the entry point.
 
 Compiles `src/**` to `dist/`
 
@@ -48,8 +49,8 @@ Compiles `src/**` to `dist/`
 
 #### Phase 2: generate cache: `scripts/generate-cache`
 
-Use `postgraphile --write-cache` (or similar) to write a cache file containing
-introspection details of your database.
+Uses a similar approach to `postgraphile --write-cache` to write a cache file
+containing introspection details of your database.
 
 Generates `dist/postgraphile.cache`
 
@@ -57,7 +58,7 @@ Generates `dist/postgraphile.cache`
 
 #### Phase 3: bundle: `scripts/bundle`
 
-Produce a zip file combining the two artifacts above.
+Produce a zip file combining the two artifacts above - `dist/index.js` and `dist/postgraphile.cache`.
 
 Generates `lambda.zip` from `dist/` folder
 

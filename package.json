@@ -1,9 +1,10 @@
 {
   "scripts": {
-    "bundle": "scripts/generate-cache && npm run zip",
     "webpack": "webpack",
-    "zip": "find . -type f  -not -name '*.js.map' -not -wholename '*/.git/*' -not -wholename '*/node_modules/.cache/*' -not -wholename '*/node_modules/webpack-cli/*' -not -wholename '*/node_modules/webpack/*' -not -wholename '*/node_modules/rxjs/*' -not -wholename '*/node_modules/prettier/*' -not -wholename '*/node_modules/fsevents/*' -not -wholename '*/node_modules/@babel/*' -not -wholename '*/node_modules/webpack-addons/*' -not -wholename '*/node_modules/caniuse-lite/*' | zip -Xqr@ lambda.zip",
-    "generate-cache": "scripts/generate-cache",
+    "phase1": ". ./.env && scripts/build",
+    "phase2": ". ./.env && scripts/generate-cache",
+    "phase3": ". ./.env && scripts/bundle",
+    "phase4": ". ./.env && scripts/test",
     "sam": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/sam",
     "test": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/test"
   },
