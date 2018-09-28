@@ -95,10 +95,10 @@ If you're using the default `.env.template` file then you'll need to populate th
 `postgraphile_forum_example` database:
 
 ```
-./import-example-database
+./scripts/import-example-database
 ```
 
-Make sure that the query in `test/query.graphql` and the options in `src/postgraphileOptions.js` are both valid for your database.
+Make sure that the query in `test/query.graphql` and the options in `src/postgraphileOptions.js` are both valid for your database. If you're using a remote PostgreSQL server (or one within a docker instance), you may need to update the `host.docker.internal` reference in `test/make-template-yml.sh` (line 15).
 
 Run the tests:
 
