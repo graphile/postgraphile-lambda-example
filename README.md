@@ -1,7 +1,9 @@
+# PostGraphile Lambda Example
+
 ## Overview
 
-This project shows how to use PostGraphile on Lambda. It's a work in progress
-with the following aims:
+This project shows an example of how you might use PostGraphile on Lambda. It
+has the following aims:
 
 - [x] Startup without needing to introspect database
 - [x] Fast startup
@@ -12,9 +14,20 @@ with the following aims:
 - [x] No requirement for Node.js `http`-based libraries (such as Connect,
   Express, Koa)
 
-### Method
+## Non-goals
 
-Here's some of the techniques we'll be using to achieve the goals:
+Postgraphile-lambda-example does NOT intend to watch the schema for changes;
+this means that you *must* build and release a new version every time you
+change your database. (You only need to update the cache file though.)
+
+Postgraphile-lambda-example does NOT intend to make this fully compatible with
+the `postgraphile` CLI - this will be a subset best suited to Lambda usage.
+
+Postgraphile-lambda-example does NOT intend to support subscriptions.
+
+## Method
+
+We use the following tools:
 
 - webpack - to bundle up the required code into as small a file as possible
   (no need for `node_modules` any more!)
@@ -23,14 +36,47 @@ Here's some of the techniques we'll be using to achieve the goals:
   bundle; then when the Lambda service starts up it can read from the cache
   rather than introspecting the database again.
 
-### Non-goals
+## Building lambda.zip
 
-We do NOT intend to watch the schema for changes; this means that you *must*
-build and release a new version every time you change your database. (You only
-need to update the cache file though.)
+First clone this repository locally, and install dependencies:
 
-We do NOT intend to make this fully compatible with the `postgraphile` CLI -
-this will be a subset best suited to Lambda usage.
+```
+yarn
+```
+
+Next, set up a `.env` file matching your environment:
+
+```
+cp .env.template .env
+```
+
+And modify the `src/postgraphileOptions.js` file to your taste.
+
+Finally run:
+
+```
+yarn build
+```
+
+This will result in a `lambda.zip` file that you can upload to Amazon Lambda.
+
+## Setting up a Lambda endpoint
+
+1. Visit https://console.aws.amazon.com/lambda/home and click 'Create function'
+2. Select "Author from scratch" and give your function a name, select the most recent Node.js release (at least 8.10+), create (or select) a role (I granted "Simple microservice permissions")
+3. Click "Create function" and wait about 15 seconds; you should be greeted with a "Congratulations" message.
+4. Scroll to "Function code", select "Upload a .zip file" from "Code entry type", press the "Upload" button and select the `lambda.zip` file you generated above; then click "Save"
+5. Scroll to "Environment variables" and enter your `DATABASE_SCHEMAS` and `DATABASE_URL` settings; then click "Save"
+6. Scroll to the top and select "API Gateway" under "Add triggers" in the "Designer", then scroll to "Configure triggers"
+7. Create a new API; if you like add 'image/gif', 'image/png', 'image/icon' and 'image/x-icon' to the list of binary media types; then press "Add" followed by "Save"
+8. Click the name of the API gateway to go to the API gateway config
+9. Select the `/` route under `Resources` and from the "Actions" dropdown, select "Create method" add create an `ANY` method
+10. Turn on "Lambda Proxy Integration" and enter your lambda function name in the relevant box, then press "Save"
+11. Finally, go to "Actions" again and "Deploy API"
+12. Copy the "Invoke URL" and paste it into your GraphQL client of choice - you can now talk to your Lambda PostGraphile API 😅
+
+
+## How it works
 
 ### Phases
 
@@ -72,7 +118,7 @@ Launch the bundle in the `sam local` test environment, and run a series of reque
 
 Left as an exercise to the reader.
 
-### Prerequisites
+### Test Prerequisites
 
 * [docker](https://docs.docker.com/install/)
 * [aws sam cli](https://docs.aws.amazon.com/lambda/latest/dg/sam-cli-requirements.html) - `pip install aws-sam-cli`
@@ -160,4 +206,4 @@ Note that SAM unpacks the zip and reboots node for every single request, so you'
 
 ### Thanks
 
-Improvements to PostGraphile's support for Lambda were sponsored by https://consciousconsumers.nz/
+Improvements to PostGraphile's support for Lambda were sponsored by [Connecting Good](https://cogo.co/)
