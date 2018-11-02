@@ -13,6 +13,20 @@ const app = combineMiddlewares([
    *
    * This is typically useful for augmenting the request before it goes to PostGraphile.
    */
+  (req, res, next) => {
+    if (options.absoluteRoutes) {
+      try {
+        const event = JSON.parse(decodeURIComponent(req.headers['x-apigateway-event']));
+        // This contains the `stage`, making it a true absolute URL (which we
+        // need for serving assets)
+        const realPath = event.requestContext.path;
+        req.originalUrl = realPath;
+      } catch (e) {
+        next(new Error('Processing event failed'));
+      }
+    }
+    next();
+  },
   postgraphile(process.env.DATABASE_URL, schemas, {
     graphqlRoute: '/',
     ...options,
@@ -20,6 +34,24 @@ const app = combineMiddlewares([
   }),
 ]);
 
+const handler = (req, res) => {
+  app(req, res, err => {
+    if (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      res.writeHead(err.status || err.statusCode || 500);
+      res.end(err.message);
+      return;
+    }
+    if (!res.finished) {
+      if (!res.headersSent) {
+        res.writeHead(404);
+      }
+      res.end(`'${req.url}' not found`);
+    }
+  });
+};
+
 const binaryMimeTypes = options.graphiql ? ['image/x-icon'] : undefined;
-const server = awsServerlessExpress.createServer(app, undefined, binaryMimeTypes);
+const server = awsServerlessExpress.createServer(handler, undefined, binaryMimeTypes);
 exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context);
