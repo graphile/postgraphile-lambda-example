@@ -1,5 +1,5 @@
 const awsServerlessExpress = require('aws-serverless-express');
-const { postgraphile } = require('../..');
+const { postgraphile } = require('postgraphile');
 const { options } = require('./postgraphileOptions');
 const combineMiddlewares = require('./combineMiddlewares');
 
@@ -22,7 +22,7 @@ const app = combineMiddlewares([
         const realPath = event.requestContext.path;
         req.originalUrl = realPath;
       } catch (e) {
-        next(new Error('Processing event failed'));
+        return next(new Error('Processing event failed'));
       }
     }
     next();
