@@ -12,12 +12,12 @@ has the following aims:
 - [x] Graphile-build schema plugin support
 - [x] Support for middlewares
 - [x] No requirement for Node.js `http`-based libraries (such as Connect,
-  Express, Koa)
+      Express, Koa)
 
 ## Non-goals
 
 Postgraphile-lambda-example does NOT intend to watch the schema for changes;
-this means that you *must* build and release a new version every time you
+this means that you _must_ build and release a new version every time you
 change your database. (You only need to update the cache file though.)
 
 Postgraphile-lambda-example does NOT intend to make this fully compatible with
@@ -75,6 +75,12 @@ This will result in a `lambda.zip` file that you can upload to Amazon Lambda.
 11. Finally, go to "Actions" again and "Deploy API"
 12. Copy the "Invoke URL" and paste it into your GraphQL client of choice - you can now talk to your Lambda PostGraphile API 😅
 
+If you want GraphiQL support (STRONGLY DISCOURAGED! Use an external GraphQL
+client such as GraphiQL.app, Altair or GraphQL Playground instead!), then you
+need to go back to stage 9, and choose 'Create Resource', tick "Configure as a
+proxy resource", press "Create Resource" and then configure it with the name of
+your lambda function, you should also change the settings in
+`src/postgraphileOptions.js` (see comment in that file).
 
 ## How it works
 
@@ -120,8 +126,8 @@ Left as an exercise to the reader.
 
 ### Test Prerequisites
 
-* [docker](https://docs.docker.com/install/)
-* [aws sam cli](https://docs.aws.amazon.com/lambda/latest/dg/sam-cli-requirements.html) - `pip install aws-sam-cli`
+- [docker](https://docs.docker.com/install/)
+- [aws sam cli](https://docs.aws.amazon.com/lambda/latest/dg/sam-cli-requirements.html) - `pip install aws-sam-cli`
 
 ### Running tests
 
@@ -173,7 +179,7 @@ If you're using the sample database then you can generate a JWT via:
 
 ```graphql
 mutation {
-  authenticate(input: {email: "spowell0@noaa.gov", password: "iFbWWlc"}) {
+  authenticate(input: { email: "spowell0@noaa.gov", password: "iFbWWlc" }) {
     jwtToken
   }
 }
@@ -202,7 +208,6 @@ Then you can issue an authenticated query:
 ```
 
 Note that SAM unpacks the zip and reboots node for every single request, so you're going to suffer some startup latency with this.
-
 
 ### Thanks
 
