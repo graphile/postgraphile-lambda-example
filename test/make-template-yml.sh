@@ -25,6 +25,11 @@ Resources:
           Properties:
             Path: /
             Method: post
+        OptionsRoute:
+          Type: Api
+          Properties:
+            Path: /
+            Method: options
         Favicon:
           Type: Api
           Properties:

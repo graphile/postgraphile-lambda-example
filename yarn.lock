@@ -858,6 +858,14 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
+cors@^2.8.5:
+  version "2.8.5"
+  resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
+  integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
+  dependencies:
+    object-assign "^4"
+    vary "^1"
+
 create-ecdh@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.3.tgz#c9111b6f33045c4697f144787f9254cdc77c45ff"
@@ -1381,14 +1389,14 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
   integrity sha1-Dovf5NHduIVNZOBOp8AOKgJuVlg=
 
-graphile-build-pg@4.1.0-rc.2:
-  version "4.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.1.0-rc.2.tgz#b059e8f22bcb96bd04820c217cb6dc463fa1fc27"
-  integrity sha512-n3d1rFncSVqNZSzWOhog21/E67M2o8T0ppVQBNgvCOec+byKy++6nBKUoxzhVyxNyzAYwY7Y9oySXgiKnajyoA==
+graphile-build-pg@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.2.0.tgz#4c8b279b94bcafb0bfc21b32f542660bf32f53b1"
+  integrity sha512-UApYkNb0aIkT/6MjInXniH3eTH4H2I9sR0biaulwBAXLukqpB/ttxWrzWbbGZF4dWZ0+uRjZNNyrK5OGdsHHtg==
   dependencies:
     chalk "^2.1.0"
     debug ">=2 <3"
-    graphile-build "4.1.0-rc.2"
+    graphile-build "4.1.0"
     graphql-iso-date "^3.6.0"
     jsonwebtoken "^8.1.1"
     lodash ">=4 <5"
@@ -1396,15 +1404,15 @@ graphile-build-pg@4.1.0-rc.2:
     pg-sql2 "2.2.1"
     postgres-interval "^1.1.1"
 
-graphile-build@4.1.0-rc.2:
-  version "4.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/graphile-build/-/graphile-build-4.1.0-rc.2.tgz#71749419a92d2126eff1bddb72f1b6169494fed8"
-  integrity sha512-pNRvAWerwDmRGJP7alyevUum/K9fBkJcH3oQb9gEo0R0TVFEId5T4Ccfq5wc0vogazEvJ7oSyNN4PIryPDHbbw==
+graphile-build@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/graphile-build/-/graphile-build-4.1.0.tgz#d1ee6bee8c53ec1b82db3dcd9a343151bdaac8f2"
+  integrity sha512-N1IEmDDgTPIf4jpLVuyhdiuQBpKNu8lMpnVTTmfuYf5GZvGz6hJzTvSZREnIoF3lPQ+JS4zMfb7KuVNOYdYu8Q==
   dependencies:
     "@types/graphql" "^14.0.3"
     chalk "^2.1.0"
     debug ">=2 <3"
-    graphql-parse-resolve-info "4.1.0-rc.2"
+    graphql-parse-resolve-info "4.1.0"
     lodash ">=4 <5"
     lru-cache ">=4 <5"
     pluralize "^7.0.0"
@@ -1415,10 +1423,10 @@ graphql-iso-date@^3.6.0:
   resolved "https://registry.yarnpkg.com/graphql-iso-date/-/graphql-iso-date-3.6.1.tgz#bd2d0dc886e0f954cbbbc496bbf1d480b57ffa96"
   integrity sha512-AwFGIuYMJQXOEAgRlJlFL4H1ncFM8n8XmoVDTNypNOZyQ8LFDG2ppMFlsS862BSTCDcSUfHp8PD3/uJhv7t59Q==
 
-graphql-parse-resolve-info@4.1.0-rc.2:
-  version "4.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/graphql-parse-resolve-info/-/graphql-parse-resolve-info-4.1.0-rc.2.tgz#e93ef370f9c7b5caa1712ea3dfa3090944887383"
-  integrity sha512-t7HmxMfCddgaBONr/Ss8jtaZd+4nkX5LkEkVfTZR59XeR03XFUkXBvz/4gMm/luN1z5Rxv6FRsIu1JKOK6Fu4g==
+graphql-parse-resolve-info@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/graphql-parse-resolve-info/-/graphql-parse-resolve-info-4.1.0.tgz#fa52bc9d8aeec210e3ad92cca30d3c36a5e814c3"
+  integrity sha512-qDRgykBm1rbyGAlduPuGtKXHlZtUcNgM8Rg6C/gDVcLww9vNV6h0nmCulpYYPWzATnAVGV8ISnLUDFCU9Y+qcA==
   dependencies:
     "@types/graphql" "^14.0.3"
     debug ">=2 <3"
@@ -2300,7 +2308,7 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-object-assign@^4.1.0:
+object-assign@^4, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -2584,19 +2592,19 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-postgraphile-core@4.1.0-rc.2:
-  version "4.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-4.1.0-rc.2.tgz#780cb09b6f4404308343616396d0221186412031"
-  integrity sha512-XMMBBsHTUp4ge+b2FCoknICFwQyRZpgJJOyKrFR0xPIulNY3V0CBq90yzXvPFXfmU68GjuR1eAMR9//0I6FSWw==
+postgraphile-core@4.2.0, postgraphile-core@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/postgraphile-core/-/postgraphile-core-4.2.0.tgz#ee5d42f04629ce1225665fedb78f491b1f8491f0"
+  integrity sha512-9SJKV+/0jINUUPQPN3TtoSEG4tI47DOZEY9Qg4sq6Yxnf5/Yr9OFImLUj8c6wxfvq5/+7Ajqny1OGnS1fnwg1Q==
   dependencies:
     "@types/graphql" "^14.0.3"
-    graphile-build "4.1.0-rc.2"
-    graphile-build-pg "4.1.0-rc.2"
+    graphile-build "4.1.0"
+    graphile-build-pg "4.2.0"
 
-postgraphile@^4.1.0-rc.2:
-  version "4.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.1.0-rc.2.tgz#07fef429a9b7380314a9ed0143b16cf90773bc84"
-  integrity sha512-/76vH7+kcjUUMJskJVAcK84VhfbVQF9PwZZYGLZClbYdCU4Sfk0TJNO+KDai/EgBiRCq+7ptWCMAECDe2koOaw==
+postgraphile@v4.2:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.2.0.tgz#1a3401ff827b5d2cfb3fe49a58fae5d93145ce09"
+  integrity sha512-S6aHo0R951wWZJLKf/jPKkRw9HhtygPL57+yZGEuWTgcHpayqG7lC3A5Zplkatlwg8ASD4w1X+7QnY8tL4YDxg==
   dependencies:
     "@types/graphql" "^14.0.3"
     "@types/jsonwebtoken" "<7.2.1"
@@ -2615,7 +2623,7 @@ postgraphile@^4.1.0-rc.2:
     pg ">=6.1.0 <8"
     pg-connection-string "^0.1.3"
     pg-sql2 "^2.2.1"
-    postgraphile-core "4.1.0-rc.2"
+    postgraphile-core "4.2.0"
     tslib "^1.5.0"
 
 postgres-array@~1.0.0:
@@ -3402,6 +3410,11 @@ v8-compile-cache@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"
   integrity sha512-1wFuMUIM16MDJRCrpbpuEPTUGmM5QMUg0cr3KFwra2XgOgFcPGDQHDh3CszSCD2Zewc/dh/pamNEW8CbfDebUw==
+
+vary@^1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
+  integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
 vm-browserify@0.0.4:
   version "0.0.4"
