@@ -35,8 +35,9 @@ We use the following tools:
   during the build and write the results to a cache file to be included in the
   bundle; then when the Lambda service starts up it can read from the cache
   rather than introspecting the database again.
+- serverless.js (optional) - for automated AWS deployments.
 
-## Building lambda.zip
+## Setup
 
 First clone this repository locally, and install dependencies:
 
@@ -50,18 +51,25 @@ Next, set up a `.env` file matching your environment:
 cp .env.template .env
 ```
 
-And modify the `src/postgraphileOptions.js` file to your taste.
+And modify the `src/postgraphileOptions.js` and `serverless.yml` files to your taste.
 
-Finally run:
+## Automatic Deployment with Serverless.js
+
+#### Deployment Prerequisites
+
+- [serverless](https://serverless.com/framework/docs/providers/aws/guide/installation/) - `yarn global add serverless`
+
+After configuring your `.env` file, ~/.aws/credentials, and postgraphileOptions.js, you can deploy to AWS using serverless.js by running:
 
 ```
-yarn build
+yarn deploy
 ```
 
-This will result in a `lambda.zip` file that you can upload to Amazon Lambda.
+## Setting up a Lambda endpoint manually
 
-## Setting up a Lambda endpoint
+If you prefer not to use the serverless.js framewwork, you can also deploy your lambda function manually.
 
+0. Run `yarn build` to create `lambda.zip` file that you can upload to Amazon Lambda.
 1. Visit https://console.aws.amazon.com/lambda/home and click 'Create function'
 2. Select "Author from scratch" and give your function a name, select the most recent Node.js release (at least 8.10+), create (or select) a role (I granted "Simple microservice permissions")
 3. Click "Create function" and wait about 15 seconds; you should be greeted with a "Congratulations" message.
@@ -171,7 +179,7 @@ Do the same as for the test, but instead of running `yarn test` at the end, inst
 yarn sam
 ```
 
-This will set up a local GraphQL endpoint at http://127.0.0.1:3000/
+This will set up a local GraphQL endpoint at http://127.0.0.1:3000/graphql
 
 You can then use a GraphQL client such as Altair or GraphQL Playground to issue requests.
 

@@ -2,12 +2,14 @@ exports.options = {
   dynamicJson: true,
   cors: true,
   graphiql: false,
-  externalUrlBase: '/default',
+  externalUrlBase: '',
+  graphqlRoute: '/graphql',
 
   // If consuming JWT:
   jwtSecret: process.env.JWT_SECRET || String(Math.random()),
   // If generating JWT:
-  jwtPgTypeIdentifier: 'forum_example.jwt_token',
+  jwtPgTypeIdentifier: 'floods.jwt_token',
+  pgDefaultRole: 'floods_anonymous',
 
   /* If you want to enable GraphiQL, you must use `externalUrlBase` so PostGraphile
    * knows where to tell the browser to find the assets.  Doing this is

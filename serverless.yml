@@ -1,0 +1,32 @@
+service: ${env:AWS_SERVICE_NAME}
+
+plugins:
+  - serverless-content-encoding
+
+custom:
+  contentEncoding:
+    minimumCompressionSize: 0
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  deploymentBucket:
+    name: ${env:AWS_SERVICE_NAME}
+  region: ${env:AWS_REGION}
+  stage: ${env:AWS_STAGE}
+
+functions:
+  graphql:
+    handler: index.handler # Actual handler substituted in during deploy script
+    events:
+      - http:
+          method: post
+          path: graphql
+          cors: true
+          integration: lambda-proxy
+    environment:
+      DATABASE_URL: ${env:DATABASE_URL}
+      DATABASE_SCHEMAS: ${env:DATABASE_SCHEMAS}
