@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 CURRENT_DIR=`dirname $BASH_SOURCE`
 
 # Source env variables
@@ -7,7 +8,7 @@ if [ -x .env ]; then
   . ./.env
   echo "... done"
 else
-  echo "... no .env file found"
+  echo "... no executable .env file found"
 fi
 
 if [ "$DATABASE_URL" = "" ]; then
@@ -15,7 +16,7 @@ if [ "$DATABASE_URL" = "" ]; then
   exit 1
 fi
 
-rm -rf .serverless
+rm -rf $CURRENT_DIR/../.serverless
 
 echo "Phase 1: Create serverless package"
 sls package

@@ -67,7 +67,22 @@ yarn deploy
 
 ## Setting up a Lambda endpoint manually
 
-If you prefer not to use the serverless.js framewwork, you can also deploy your lambda function manually.
+If you prefer not to use the serverless.js framework, you can also deploy your lambda function manually.
+
+Note 1: Change your process.env.AWS_STAGE_NAME to "/default" to match the default stage name for manually deployed API Gateways.
+
+Note 2: To enable cors with a manual deployment, you should add cors middleware to the top of combineMiddleware() in index.js.
+
+```
+const cors = require('cors');
+const app = combineMiddlewares([
+  // CORS middleware to permit cross-site API requests. Configure to taste
+  cors(),
+
+  (req, res, next) => { ... },
+  postgraphile(...)
+  ...
+```
 
 0. Run `yarn build` to create `lambda.zip` file that you can upload to Amazon Lambda.
 1. Visit https://console.aws.amazon.com/lambda/home and click 'Create function'
