@@ -71,18 +71,7 @@ If you prefer not to use the serverless.js framework, you can also deploy your 
 
 Note 1: Change your process.env.AWS_STAGE_NAME to "/default" to match the default stage name for manually deployed API Gateways.
 
-Note 2: To enable cors with a manual deployment, you should add cors middleware to the top of combineMiddleware() in index.js.
-
-```
-const cors = require('cors');
-const app = combineMiddlewares([
-  // CORS middleware to permit cross-site API requests. Configure to taste
-  cors(),
-
-  (req, res, next) => { ... },
-  postgraphile(...)
-  ...
-```
+Note 2: CORS is enabled by default. Remove cors() middleware in `/src/index.js` if you would prefer disabled cors.
 
 0. Run `yarn build` to create `lambda.zip` file that you can upload to Amazon Lambda.
 1. Visit https://console.aws.amazon.com/lambda/home and click 'Create function'

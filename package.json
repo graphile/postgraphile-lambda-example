@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "aws-serverless-express": "^3.3.5",
+    "cors": "^2.8.5",
     "pg": "7.4.1",
     "postgraphile": "v4.2",
     "postgraphile-core": "^4.2.0"
