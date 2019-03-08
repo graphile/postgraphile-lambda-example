@@ -7,16 +7,19 @@
     "phase4": ". ./.env && scripts/test",
     "build": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle",
     "sam": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/sam",
-    "test": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/test"
+    "test": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/test",
+    "deploy": "scripts/serverless"
   },
   "dependencies": {
-    "aws-serverless-express": "3.1.3",
+    "aws-serverless-express": "^3.3.5",
     "cors": "^2.8.5",
     "pg": "7.4.1",
     "postgraphile": "v4.2",
     "postgraphile-core": "^4.2.0"
   },
   "devDependencies": {
+    "aws-sdk": "^2.389.0",
+    "serverless-content-encoding": "^1.1.0",
     "webpack": "4.17.2",
     "webpack-cli": "3.1.0"
   }

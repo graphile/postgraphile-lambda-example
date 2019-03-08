@@ -23,12 +23,12 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /
+            Path: /graphql
             Method: post
         OptionsRoute:
           Type: Api
           Properties:
-            Path: /
+            Path: /graphql
             Method: options
         Favicon:
           Type: Api

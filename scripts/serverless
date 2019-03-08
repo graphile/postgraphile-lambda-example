@@ -1,0 +1,45 @@
+#!/bin/bash
+set -e
+CURRENT_DIR=`dirname $BASH_SOURCE`
+
+# Source env variables
+echo "Sourcing environment"
+if [ -x .env ]; then
+  . ./.env
+  echo "... done"
+else
+  echo "... no executable .env file found"
+fi
+
+if [ "$DATABASE_URL" = "" ]; then
+  echo "No DATABASE_URL envvar found; cannot continue."
+  exit 1
+fi
+
+rm -rf $CURRENT_DIR/../.serverless
+
+echo "Phase 1: Create serverless package"
+sls package
+
+echo "Phase 2: Build webpack bundle and add it to serverless package"
+scripts/build
+scripts/generate-cache
+scripts/bundle
+mv $CURRENT_DIR/../lambda.zip $CURRENT_DIR/../.serverless/graphql.zip
+
+# Update SHA hash for modified function zip file
+SHA=$(openssl dgst -sha256 -binary $CURRENT_DIR/../.serverless/graphql.zip | openssl enc -base64 | sed -e "s#/#\\\/#g")
+if [ $(uname -s) == 'Darwin' ]; then
+  # OSX sed syntax is slightly different
+  sed -i '' -e "s/\"CodeSha256\": \".*\"/\"CodeSha256\": \"${SHA}\"/g" $CURRENT_DIR/../.serverless/*.json
+else
+  sed -i "s/\"CodeSha256\": \".*\"/\"CodeSha256\": \"${SHA}\"/g" $CURRENT_DIR/../.serverless/*.json
+fi
+
+echo "Phase 3: Create S3 Bucket for serverless function"
+node scripts/createS3Bucket.js
+
+echo "Phase 4: Deploy package to AWS"
+sls deploy -p .serverless
+
+echo "Complete"
