@@ -55,15 +55,30 @@ And modify the `src/postgraphileOptions.js` and `serverless.yml` files to your t
 
 ## Automatic Deployment with Serverless.js
 
-#### Deployment Prerequisites
+This repository runs bash scripts during deployment written on Mac which you can find in the `scripts` folder. These scripts should run just fine on Mac and Linux, but you might run into problems on Windows. As a workaround you can just run Linux within Windows and run the deployment scripts there. If you're on Windows 10 you can install a command line Linux distro from the Microsoft Store - there is a guide further below. If you're using another version of Windows, you could run Linux in a VM (or possibly a Docker container).
 
-- [serverless](https://serverless.com/framework/docs/providers/aws/guide/installation/) - `yarn global add serverless`
+#### On Mac/Linux
 
-After configuring your `.env` file, ~/.aws/credentials, and postgraphileOptions.js, you can deploy to AWS using serverless.js by running:
+- install [serverless](https://serverless.com/framework/docs/providers/aws/guide/installation/) - `yarn global add serverless`
+- Make sure you configured your [aws credentials](https://serverless.com/framework/docs/providers/aws/guide/credentials/) - if you're doing that for the first time, just create the IAM role and then use the aws-cli method as described in the link (Hint: make sure that the IAM role policy you copied from the gist contains `"s3:GetBucketLocation"`)
+
+Now you can deploy to AWS using serverless.js by running:
 
 ```
 yarn deploy
 ```
+
+#### On Windows 10
+
+- After you completed the steps in `Setup`, go to the Microsoft Marketplace in the start menu and install a command line linux distro of your choice (we use ubuntu 18.04 in these instructions).
+- Run ubuntu and create a user and password.
+- Run `sudo apt update` to get access to the latest packages.
+- Install and activate a virtual environment: Follow the steps in [this tutorial](https://linuxize.com/post/how-to-create-python-virtual-environments-on-ubuntu-18-04/) until after the activation. From now on, always keep running within the virtual environment. (Why we do this: We will use the `aws-cli` to provide serverless with AWS credentials to create the stack on AWS on your behalf. `aws-cli` relies on python3 which is also used by the Linux system, but in a different version. In order to avoid version conflicts/incompatibilites, we install the `aws-cli` in a virtual environment which comes with its own python installation.)
+- Install the aws-cli by running `pip install --upgrade awscli` (from within the venv). You can make sure it installed correctly by running `aws --version`.
+- If you haven't already done that, create an IAM role for serverless as described [here](https://serverless.com/framework/docs/providers/aws/guide/credentials/). (Hint: Make sure that the IAM role policy you copied from the gist contains `"s3:GetBucketLocation"`.)
+- Save the credentials to aws-cli by running `aws configure` ([more details](https://serverless.com/framework/docs/providers/aws/guide/credentials#setup-with-the-aws-cli)).
+- Install yarn (you do need to use yarn and not npm because the scripts use yarn) as described on [their website](https://yarnpkg.com/lang/en/docs/install/#debian-stable), serverless with `yarn global add serverless` and zip with `sudo apt-get install zip`.
+- Cd to your postgraphile project folder you created during setup and run `yarn deploy`.
 
 ## Setting up a Lambda endpoint manually
 
