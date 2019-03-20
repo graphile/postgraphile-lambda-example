@@ -236,6 +236,12 @@ Then you can issue an authenticated query:
 
 Note that SAM unpacks the zip and reboots node for every single request, so you're going to suffer some startup latency with this.
 
+### Troubleshooting
+
+- If you receive serverless errors during `yarn deploy`, sometimes they can be resolved by just running the command another time. At the time of writing (20/Mar/2019), there is also a temporal error with Serverless v1.39: "Can't find graphql.zip file". If this happens downgrade to Serverless 1.38 by running `yarn global add serverless@1.38`.
+- If your serverless stack is created successfully, but then your endpoint throws some unhelpful errors, check the Cloudwatch logs of the Lambda. If you notice that the Lambda just times out, you might try checking the security settings of your DB instance. For example, if you use RDS with the "public" setting enabled, the public access might be restricted to your IP address. This would result in the schema being successfully generated during stack creation from your device, but the Lambda not having access obviously (without any error messages hinting you in that direction). You can fix that by setting the inbound settings of the security group of the RDS instance to all IPs (or even better by [making the Lambda access RDS from within the VCP](https://docs.aws.amazon.com/lambda/latest/dg/vpc-rds.html))
+- If you want to remove your stack from AWS and you try running `serverless remove`, you may run into errors. If that happens, you can go to Cloudformation in the AWS console and delete your stack there.
+
 ### Thanks
 
 Improvements to PostGraphile's support for Lambda were sponsored by [Connecting Good](https://cogo.co/)
