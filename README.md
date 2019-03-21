@@ -55,11 +55,11 @@ And modify the `src/postgraphileOptions.js` and `serverless.yml` files to your t
 
 #### AWS VPC settings
 
-When you're deploying Postgraphile using Lambda, you can run your DB instance on AWS as well in order to make use of AWS's integrated security using VPCs. In that case you can restrict the public accessibility of your DB instance from the internet. *If you don't host your DB on AWS you can obviously ignore this section.*
+When you're deploying Postgraphile using Lambda, you can run your DB instance on AWS as well in order to make use of AWS's integrated security using VPCs. In that case you can restrict the public accessibility of your DB instance from the internet. *If you don't host your DB on AWS you can ignore this section.*
 
 When using RDS for example, our use case **requires two ways of access**:
 
-1. Obviously the Postgraphile Lambda function we will create needs access to the RDS instance. We achieve that by creating the Lambda function within the same VPC our RDS instance lives in.
+1. The Postgraphile Lambda function we will create needs access to the RDS instance. We achieve that by creating the Lambda function within the same VPC our RDS instance lives in.
 2. In some use cases that's all you need and you can completely hide the RDS from public access and only make it accessible from within the VPC (at a later point in production you might even do it that way). In our case this would be a bit inconvenient because our Postgraphile scripts need to access the DB during schema generation and this process runs on our local machine. Therefore we add the ability to access the DB instance publicly, though restricted to our current IP. (The ability to connect to the DB from our local system is helpful in many other situations as well, e.g. when running migrations or when accessing the database through a DB client.)
 
 Achieving this can be a bit confusing if you're new to VPCs. When you create your RDS instance, set the following "Network & Security" settings:
@@ -71,6 +71,7 @@ Achieving this can be a bit confusing if you're new to VPCs. When you create you
 If you want to learn more, here's some more info on [VPCs in the context of RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) and on [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html).
 
 Now, we just have to make sure that our Lambda is created within our VPC as well. For that just add the following to the specifications of your `graphql` function in your `serverless.yml` file:
+
 ```
 vpc:
   securityGroupIds:
@@ -80,6 +81,7 @@ vpc:
     - subnet-456
     - subnet-789
 ```
+
 You can find all these values in the RDS console under "Connectivity & Security". (As the securityGroupId it's enough to use the `default` one: this basically makes the Lambda function part of the VPC.)
 
 (You will also need to add `"iam:AttachRolePolicy"` to the permissions of the Serverless IAM role policy you will later create.)
