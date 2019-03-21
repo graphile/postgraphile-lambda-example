@@ -53,6 +53,41 @@ cp .env.template .env
 
 And modify the `src/postgraphileOptions.js` and `serverless.yml` files to your taste.
 
+#### AWS VPC settings
+
+When you're deploying Postgraphile using Lambda, you can run your DB instance on AWS as well in order to make use of AWS's integrated security using VPCs. In that case you can restrict the public accessibility of your DB instance from the internet. *If you don't host your DB on AWS you can ignore this section.*
+
+When using RDS for example, our use case **requires two ways of access**:
+
+1. The Postgraphile Lambda function we will create needs access to the RDS instance. We achieve that by creating the Lambda function within the same VPC our RDS instance lives in.
+2. In some use cases that's all you need and you can completely hide the RDS from public access and only make it accessible from within the VPC (at a later point in production you might even do it that way). In our case this would be a bit inconvenient because our Postgraphile scripts need to access the DB during schema generation and this process runs on our local machine. Therefore we add the ability to access the DB instance publicly, though restricted to our current IP. (The ability to connect to the DB from our local system is helpful in many other situations as well, e.g. when running migrations or when accessing the database through a DB client.)
+
+Achieving this can be a bit confusing if you're new to VPCs. When you create your RDS instance, set the following "Network & Security" settings:
+
+- VPC & subnet group: default (RDS instances are always created within a VPC and your AWS account comes with its default VPC)
+- Public accessibility: Yes (this is for our second requirement, but don't expect that this alone will make your RDS instance publicly accessible: access is always regulated through your security group settings and if there is no rule there that allows public access, then setting "yes" here does not in any way expose your instance)
+- VPC security groups: We actually need two different security groups. Just select "Create new VPC security group" here. Then RDS will automatically create a new security group with an inbound rule of type `PostgresQL` restricted to your current IP address as source. This will satisfy our second requirement. After you created your instance, click on "Modify" and return to your security group settings. Now add the `default` security group as the second one. This security group allows other entities within the VPC (e.g. our Lambda function) to access this entity (the RDS instance) which is needed for our first requirement. You might have expected that entities are able to access other entities within the same VPC by default, but you have to add this security group explicitly.
+
+If you want to learn more, here's some more info on [VPCs in the context of RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) and on [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html).
+
+Now, we just have to make sure that our Lambda is created within our VPC as well. For that just add the following to the specifications of your `graphql` function in your `serverless.yml` file:
+
+```
+vpc:
+  securityGroupIds:
+    - sg-123456
+  subnetIds:
+    - subnet-123
+    - subnet-456
+    - subnet-789
+```
+
+You can find all these values in the RDS console under "Connectivity & Security". (As the securityGroupId it's enough to use the `default` one: this basically makes the Lambda function part of the VPC.)
+
+(You will also need to add `"iam:AttachRolePolicy"` to the permissions of the Serverless IAM role policy you will later create.)
+
+Hint: Don't forget that your access to RDS from your local computer is based on your current network, so when you want to e.g. re-generate the Postgraphile schema, but are now connected to a different network, you'll have to return to the `rds-launch-wizard` security group settings, edit the inbound rule and select "My IP" at source to automatically update your IP.
+
 ## Automatic Deployment with Serverless.js
 
 This repository runs bash scripts during deployment written on Mac which you can find in the `scripts` folder. These scripts should run just fine on Mac and Linux, but you might run into problems on Windows. As a workaround you can just run Linux within Windows and run the deployment scripts there. If you're on Windows 10 you can install a command line Linux distro from the Microsoft Store - there is a guide further below. If you're using another version of Windows, you could run Linux in a VM (or possibly a Docker container).
@@ -70,7 +105,7 @@ yarn deploy
 
 #### On Windows 10
 
-- After you completed the steps in `Setup`, go to the Microsoft Marketplace in the start menu and install a command line linux distro of your choice (we use ubuntu 18.04 in these instructions).
+- After you completed the steps in [Setup](#setup), go to the Microsoft Marketplace in the start menu and install a command line linux distro of your choice (we use ubuntu 18.04 in these instructions).
 - Run ubuntu and create a user and password.
 - Run `sudo apt update` to get access to the latest packages.
 - Install and activate a virtual environment: Follow the steps in [this tutorial](https://linuxize.com/post/how-to-create-python-virtual-environments-on-ubuntu-18-04/) until after the activation. From now on, always keep running within the virtual environment. (Why we do this: We will use the `aws-cli` to provide serverless with AWS credentials to create the stack on AWS on your behalf. `aws-cli` relies on python3 which is also used by the Linux system, but in a different version. In order to avoid version conflicts/incompatibilites, we install the `aws-cli` in a virtual environment which comes with its own python installation.)
@@ -79,6 +114,10 @@ yarn deploy
 - Save the credentials to aws-cli by running `aws configure` ([more details](https://serverless.com/framework/docs/providers/aws/guide/credentials#setup-with-the-aws-cli)).
 - Install yarn (you do need to use yarn and not npm because the scripts use yarn) as described on [their website](https://yarnpkg.com/lang/en/docs/install/#debian-stable), serverless with `yarn global add serverless` and zip with `sudo apt-get install zip`.
 - Cd to your postgraphile project folder you created during setup and run `yarn deploy`.
+
+#### After deployment
+
+Just copy the URL that Serverless returns in the command line under `endpoints` after successful deployment and paste it into your GraphQL client of choice - you can now talk to your Lambda PostGraphile API 😅
 
 ## Setting up a Lambda endpoint manually
 
@@ -239,7 +278,7 @@ Note that SAM unpacks the zip and reboots node for every single request, so you'
 ### Troubleshooting
 
 - If you receive serverless errors during `yarn deploy`, sometimes they can be resolved by just running the command another time. At the time of writing (20/Mar/2019), there is also a temporal error with Serverless v1.39: "Can't find graphql.zip file". If this happens downgrade to Serverless 1.38 by running `yarn global add serverless@1.38`.
-- If your serverless stack is created successfully, but then your endpoint throws some unhelpful errors, check the Cloudwatch logs of the Lambda. If you notice that the Lambda just times out, you might try checking the security settings of your DB instance. For example, if you use RDS with the "public" setting enabled, the public access might be restricted to your IP address. This would result in the schema being successfully generated during stack creation from your device, but the Lambda not having access obviously (without any error messages hinting you in that direction). You can fix that by setting the inbound settings of the security group of the RDS instance to all IPs (or even better by [making the Lambda access RDS from within the VCP](https://docs.aws.amazon.com/lambda/latest/dg/vpc-rds.html))
+- If your serverless stack is created successfully, but then your endpoint throws some unhelpful errors, check the Cloudwatch logs of the Lambda. If you notice that the Lambda just times out, you might try checking the security settings of your DB instance. For example, if you use RDS with the "public" setting enabled, the public access might be restricted to your IP address. This would result in the schema being successfully generated during stack creation from your device, but the Lambda not having access obviously (without any error messages hinting you in that direction). You can quick-fix that by setting the inbound settings of the security group of the RDS instance to all IPs (or even better by [making the Lambda access RDS from within the VCP](#aws-vpc-settings))
 - If you want to remove your stack from AWS and you try running `serverless remove`, you may run into errors. If that happens, you can go to Cloudformation in the AWS console and delete your stack there.
 
 ### Thanks
