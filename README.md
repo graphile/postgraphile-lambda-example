@@ -70,19 +70,7 @@ Achieving this can be a bit confusing if you're new to VPCs. When you create you
 
 If you want to learn more, here's some more info on [VPCs in the context of RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) and on [security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html).
 
-Now, we just have to make sure that our Lambda is created within our VPC as well. For that just add the following to the specifications of your `graphql` function in your `serverless.yml` file:
-
-```
-vpc:
-  securityGroupIds:
-    - sg-123456
-  subnetIds:
-    - subnet-123
-    - subnet-456
-    - subnet-789
-```
-
-You can find all these values in the RDS console under "Connectivity & Security". (As the securityGroupId it's enough to use the `default` one: this basically makes the Lambda function part of the VPC.)
+Now, we just have to make sure that our Lambda is created within our VPC as well. For that just edit the AWS_VPC environment variables in the `.env.template` and they will be used in the `vpc` section of the `serverless.yml` file. You can find all these values in the RDS console under "Connectivity & Security". (As the securityGroupId it's enough to use the `default` one: this basically makes the Lambda function part of the VPC. There should be 3 subnetIds.)
 
 (You will also need to add `"iam:AttachRolePolicy"` to the permissions of the Serverless IAM role policy you will later create.)
 
