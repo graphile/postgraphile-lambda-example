@@ -30,3 +30,5 @@ functions:
     environment:
       DATABASE_URL: ${env:DATABASE_URL}
       DATABASE_SCHEMAS: ${env:DATABASE_SCHEMAS}
+      JWT_SECRET: ${env:JWT_SECRET}
+      JWT_PG_TYPE_IDENTIFIER: ${env:JWT_PG_TYPE_IDENTIFIER}
