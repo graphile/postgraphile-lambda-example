@@ -1,14 +1,14 @@
 // This script is called from scripts/generate-cache
-const { createPostGraphileSchema } = require('postgraphile-core');
+const { createPostGraphileSchema } = require('postgraphile');
 const { options } = require('./postgraphileOptions');
-const pg = require('pg');
+const { Pool } = require('pg');
 
 const schemas = process.env.DATABASE_SCHEMAS
   ? process.env.DATABASE_SCHEMAS.split(',')
   : ['app_public'];
 
 async function main() {
-  const pgPool = new pg.Pool({
+  const pgPool = new Pool({
     connectionString: process.env.DATABASE_URL,
   });
   await createPostGraphileSchema(pgPool, schemas, {
