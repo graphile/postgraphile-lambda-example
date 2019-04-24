@@ -45,7 +45,9 @@ const handler = (req, res) => {
       // eslint-disable-next-line no-console
       console.error(err);
       res.statusCode = err.status || err.statusCode || 500;
-      res.setHeader('Content-Type', 'application/json');
+      if (!res.headersSent) {
+        res.setHeader('Content-Type', 'application/json');
+      }
       res.end(JSON.stringify({ errors: [{message: err.message}] }));
       return;
     }
@@ -53,8 +55,7 @@ const handler = (req, res) => {
       if (!res.headersSent) {
         res.statusCode = 404;
       }
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ error: `'${req.url}' not found` }));
+      res.end(`'${req.url}' not found`);
     }
   });
 };
