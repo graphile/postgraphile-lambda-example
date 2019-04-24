@@ -46,7 +46,7 @@ const handler = (req, res) => {
       console.error(err);
       res.statusCode = err.status || err.statusCode || 500;
       res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ error: err.message }));
+      res.end(JSON.stringify({ errors: [{message: err.message}] }));
       return;
     }
     if (!res.finished) {
