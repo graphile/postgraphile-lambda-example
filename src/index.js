@@ -44,15 +44,16 @@ const handler = (req, res) => {
     if (err) {
       // eslint-disable-next-line no-console
       console.error(err);
-      res.writeHead(err.status || err.statusCode || 500);
-      res.end(err.message);
+      res.setHeader('Content-Type', 'application/json');
+      res.statusCode = err.status || err.statusCode || 500;
+      res.end(JSON.stringify({ error: err.message }));
       return;
     }
     if (!res.finished) {
       if (!res.headersSent) {
-        res.writeHead(404);
+        res.statusCode = 404;
       }
-      res.end(`'${req.url}' not found`);
+      res.end(JSON.stringify({ error: `'${req.url}' not found` }));
     }
   });
 };
