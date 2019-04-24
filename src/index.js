@@ -44,8 +44,8 @@ const handler = (req, res) => {
     if (err) {
       // eslint-disable-next-line no-console
       console.error(err);
-      res.statusCode = err.status || err.statusCode || 500;
       if (!res.headersSent) {
+        res.statusCode = err.status || err.statusCode || 500;
         res.setHeader('Content-Type', 'application/json');
       }
       res.end(JSON.stringify({ errors: [{message: err.message}] }));
