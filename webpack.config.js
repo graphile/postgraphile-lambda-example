@@ -27,6 +27,12 @@ module.exports = {
       }),
       new webpack.NormalModuleReplacementPlugin(/pg\/lib\/native\/index\.js$/, '../client.js'),
     ],
+    
+    // Omit websocket functionality from postgraphile:
+    new webpack.NormalModuleReplacementPlugin(
+      /postgraphile\/build\/postgraphile\/http\/subscriptions\.js$/,
+      `${__dirname}/src/postgraphile-http-subscriptions.js`
+    ),
 
     // Just in case you install express:
     new webpack.NormalModuleReplacementPlugin(
