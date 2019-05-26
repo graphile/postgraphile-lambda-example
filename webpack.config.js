@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { options: postgraphileOptions } = require('./src/postgraphileOptions.js');
 
 module.exports = {
@@ -45,8 +45,8 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
+      new TerserPlugin({
+        terserOptions: {
           // Without this, you may get errors such as
           // `Error: GraphQL conflict for 'e' detected! Multiple versions of graphql exist in your node_modules?`
           mangle: false,
