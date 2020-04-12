@@ -283,6 +283,11 @@ Note that SAM unpacks the zip and reboots node for every single request, so you'
 - If your serverless stack is created successfully, but then your endpoint throws some unhelpful errors, check the Cloudwatch logs of the Lambda. If you notice that the Lambda just times out, you might try checking the security settings of your DB instance. For example, if you use RDS with the "public" setting enabled, the public access might be restricted to your IP address. This would result in the schema being successfully generated during stack creation from your device, but the Lambda not having access obviously (without any error messages hinting you in that direction). You can quick-fix that by setting the inbound settings of the security group of the RDS instance to all IPs (or even better by [making the Lambda access RDS from within the VCP](#aws-vpc-settings))
 - If you want to remove your stack from AWS and you try running `serverless remove`, you may run into errors. If that happens, you can go to Cloudformation in the AWS console and delete your stack there.
 
+### Related Projects
+
+A PostGraphile lambda example using [Zeit now.sh](https://zeit.co/) to manage
+the deployment: https://github.com/ggascoigne/now-postgraphile
+
 ### Thanks
 
 Improvements to PostGraphile's support for Lambda were sponsored by [Connecting Good](https://cogo.co/)
