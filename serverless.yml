@@ -1,5 +1,3 @@
-org: rorykelly
-app: 8bars-database
 service: ${env:AWS_SERVICE_NAME}
 
 plugins:

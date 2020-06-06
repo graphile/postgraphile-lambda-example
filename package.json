@@ -5,7 +5,8 @@
     "database:down": "dotenv -e .env -- docker-compose down --v",
     "database:up": "dotenv -e .env -- docker-compose up",
     "generate:cache": "dotenv -e .env scripts/generate-cache",
-    "offine": "dotenv -e .env serverless offline",
+    "serverless:offine": "dotenv -e .env serverless offline",
+    "serverless:deploy": "dotenv -e .env serverless deploy",
     "test": "dotenv -e .env -- test/test.sh"
   },
   "dependencies": {
