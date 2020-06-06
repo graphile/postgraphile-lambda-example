@@ -1,14 +1,12 @@
 {
   "scripts": {
     "webpack": "webpack",
-    "phase1": ". ./.env && scripts/build",
-    "phase2": ". ./.env && scripts/generate-cache",
-    "phase3": ". ./.env && scripts/bundle",
-    "phase4": ". ./.env && scripts/test",
-    "build": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle",
-    "sam": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/sam",
-    "test": ". ./.env && scripts/build && scripts/generate-cache && scripts/bundle && scripts/test",
-    "deploy": "scripts/serverless"
+    "deploy": "scripts/serverless",
+    "database:down": "dotenv -e .env -- docker-compose down --v",
+    "database:up": "dotenv -e .env -- docker-compose up",
+    "generate:cache": "dotenv -e .env scripts/generate-cache",
+    "offine": "dotenv -e .env serverless offline",
+    "test": "dotenv -e .env -- test/test.sh"
   },
   "dependencies": {
     "aws-serverless-express": "^3.3.5",
@@ -18,8 +16,12 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.437.0",
+    "copy-webpack-plugin": "^6.0.2",
+    "dotenv-cli": "^3.1.0",
     "serverless-content-encoding": "^1.1.0",
-    "webpack": "4.29.6",
-    "webpack-cli": "3.3.0"
+    "serverless-offline": "^6.4.0",
+    "serverless-webpack": "^5.3.2",
+    "webpack": "4.43.0",
+    "webpack-cli": "3.3.11"
   }
 }

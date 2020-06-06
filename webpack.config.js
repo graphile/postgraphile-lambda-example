@@ -1,18 +1,26 @@
 const path = require('path');
 const webpack = require('webpack');
+const slsw = require('serverless-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const { options: postgraphileOptions } = require('./src/postgraphileOptions.js');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+  entry: slsw.lib.entries,
+  mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js',
-    library: '',
     libraryTarget: 'commonjs',
+    path: path.join(__dirname, '.webpack'),
+    filename: '[name].js',
+    sourceMapFilename: '[file].map'
   },
-  mode: 'production',
   target: 'node',
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/postgraphile.cache', to: 'src/postgraphile.cache' },
+      ],
+    }),
     // Prevent loading pg-native (in a weird, backwards kind of way!)
     ...[
       new webpack.DefinePlugin({
@@ -26,8 +34,8 @@ module.exports = {
             }),
       }),
       new webpack.NormalModuleReplacementPlugin(/pg\/lib\/native\/index\.js$/, '../client.js'),
+
     ],
-    
     // Omit websocket functionality from postgraphile:
     new webpack.NormalModuleReplacementPlugin(
       /postgraphile\/build\/postgraphile\/http\/subscriptions\.js$/,
@@ -38,7 +46,7 @@ module.exports = {
     new webpack.NormalModuleReplacementPlugin(
       /express\/lib\/view\.js$/,
       `${__dirname}/src/express-lib-view.js`
-    ),
+    )
   ],
   node: {
     __dirname: false, // just output `__dirname`

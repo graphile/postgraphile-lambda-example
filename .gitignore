@@ -6,3 +6,5 @@
 /lambda.zip
 /.serverless/
 .DS_Store
+/.webpack
+/src/postgraphile.cache

@@ -2,22 +2,13 @@
 
 set -e
 
-# Reset state
-dropdb --if-exists forum_example_postgraphile
-dropuser --if-exists forum_example_postgraphile
-dropuser --if-exists forum_example_person
-dropuser --if-exists forum_example_anonymous
-
-# Create the database
-createdb forum_example_postgraphile
-
 # Load the schema
 #   curl -sL https://github.com/graphile/postgraphile/raw/160670dd91ca7faddf784351b33da2bb9924df39/examples/forum/schema.sql | psql -X forum_example_postgraphile
-psql forum_example_postgraphile -f test/sql/01_schema.sql
+psql -v ON_ERROR_STOP=1 -d "$POSTGRES_DB" --username "$POSTGRES_USER" forum_example_postgraphile -f /sql-temp/01_schema.sql
 
 # Load the data
 #   curl -sL https://github.com/graphile/postgraphile/raw/160670dd91ca7faddf784351b33da2bb9924df39/examples/forum/data.sql | psql -X forum_example_postgraphile
-psql forum_example_postgraphile -f test/sql/02_data.sql
+psql -v ON_ERROR_STOP=1 -d "$POSTGRES_DB" --username "$POSTGRES_USER" forum_example_postgraphile -f /sql-temp/02_data.sql
 
 echo
 echo

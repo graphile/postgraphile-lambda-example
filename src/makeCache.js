@@ -13,7 +13,7 @@ async function main() {
   });
   await createPostGraphileSchema(pgPool, schemas, {
     ...options,
-    writeCache: `${__dirname}/../dist/postgraphile.cache`,
+    writeCache: `${__dirname}/postgraphile.cache`,
   });
   await pgPool.end();
 }

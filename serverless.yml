@@ -1,14 +1,23 @@
+org: rorykelly
+app: 8bars-database
 service: ${env:AWS_SERVICE_NAME}
 
 plugins:
   - serverless-content-encoding
+  - serverless-webpack
+  - serverless-offline
 
 custom:
   contentEncoding:
     minimumCompressionSize: 0
+  webpackIncludeModules: true
+  webpack:
+    webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+    includeModules: true
 
 package:
   individually: true
+
 
 provider:
   name: aws
@@ -20,7 +29,7 @@ provider:
 
 functions:
   graphql:
-    handler: index.handler # Actual handler substituted in during deploy script
+    handler: src/index.handler # Actual handler substituted in during deploy script
     events:
       - http:
           method: post
