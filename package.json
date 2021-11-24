@@ -17,7 +17,7 @@
     "postgraphile": "^4.4.0-beta.9"
   },
   "devDependencies": {
-    "aws-sdk": "^2.437.0",
+    "aws-sdk": "^2.814.0",
     "serverless-content-encoding": "^1.1.0",
     "webpack": "4.29.6",
     "webpack-cli": "3.3.0"
