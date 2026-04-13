@@ -30,7 +30,7 @@ module.exports = {
     
     // Omit websocket functionality from postgraphile:
     new webpack.NormalModuleReplacementPlugin(
-      /postgraphile\/build\/postgraphile\/http\/subscriptions\.js$/,
+      /postgraphile\/build-turbo\/postgraphile\/http\/subscriptions\.js$/,
       `${__dirname}/src/postgraphile-http-subscriptions.js`
     ),
 
